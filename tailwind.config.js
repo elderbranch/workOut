@@ -14,6 +14,10 @@ export default {
     },
     fontSize: {
       h1: ['32px', '38px'],
+    },
+    backgroundImage: {
+      'profile-back': "url('./src/assets/BackImage.svg)",
+      'footer-texture': "url('/img/footer-texture.png')",
     }
   },
   plugins: [],

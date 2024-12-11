@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../context/authContext";
-import { Toaster } from "react-hot-toast";
 import Spinner from "../UI/Spinner";
+import { registerUserOrAuthUser } from "../../api/auth";
+import { useState } from "react";
 
 const AuthModal = () => {
   const navigate = useNavigate();
-  const {userData, updateUserData, authUser, token, isRememberMeChecked, setIsRememberMeChecked, isLoading} = useAuthContext();
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
 
   const handleCheckboxChange = (event) => {
     console.log(isRememberMeChecked)
     setIsRememberMeChecked(event.target.checked);
+  };
+
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const updateUserData = (newUserData) => {
+    setUserData((prev) => ({ ...prev, ...newUserData }));
   };
 
   return (
@@ -18,7 +27,7 @@ const AuthModal = () => {
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Вход в аккаунт</h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full mb-10">
-        <div className="break-words">{isRememberMeChecked? token: null}</div>
+        {/* <div className="break-words">{isRememberMeChecked? token: null}</div> */}
         <form className="space-y-4" action="#" method="POST" onSubmit={(e) => e.preventDefault()}>
           <div>
             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Почта</label>
@@ -38,7 +47,7 @@ const AuthModal = () => {
             <div className="w-40 mx-auto mt-5"><input type="checkbox" id="checkbox1" onChange={handleCheckboxChange} checked={isRememberMeChecked}  className="mr-1"/><label htmlFor="checkbox1">Запомнить меня</label></div>
           </div>
           <div>
-            <button onClick={() => authUser()} type="submit" disabled={isLoading} className="flex w-full justify-center rounded-lg bg-btnColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{isLoading ? <Spinner /> : "Войти в аккаунт"}</button>
+            <button onClick={() => registerUserOrAuthUser('login', userData, isRememberMeChecked)} type="submit" className="flex w-full justify-center rounded-lg bg-btnColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{"Войти в аккаунт"}</button>
           </div>
         </form>
         <p className="mt-4 text-center text-sm/6 text-gray-500">

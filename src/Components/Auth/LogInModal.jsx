@@ -1,12 +1,31 @@
-import { useAuthContext } from "../../context/authContext";
+
 
 import { useNavigate } from "react-router-dom";
 import Spinner from "../UI/Spinner";
+import { registerUserOrAuthUser } from "../../api/auth";
+import { useState } from "react";
 
 const LogInModal = () => {
   const navigate = useNavigate();
 
-  const { userData, updateUserData, registerUser, isLoading } = useAuthContext();
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    console.log(isRememberMeChecked)
+    setIsRememberMeChecked(event.target.checked);
+  };
+
+
+  const [userData, setUserData] = useState({
+    email: "",
+    first_name: "",
+    last_name: "",
+    password: "",
+  });
+
+  const updateUserData = (newUserData) => {
+    setUserData((prev) => ({ ...prev, ...newUserData }));
+  };
 
   return (
     <div className="w-full min-[450px]:w-[400px] md:w-[672px] shadow-xl rounded-3xl flex min-h-full flex-col justify-center px-8  bg-white">
@@ -42,10 +61,10 @@ const LogInModal = () => {
             </div>
           </div>
           <div>
-            <div className="w-40 mx-auto mt-5"><input type="checkbox" id="checkbox1" className="mr-1" /><label htmlFor="checkbox1">Запомнить меня</label></div>
+            <div className="w-40 mx-auto mt-5"><input type="checkbox" onChange={handleCheckboxChange} checked={isRememberMeChecked} id="checkbox1" className="mr-1" /><label htmlFor="checkbox1">Запомнить меня</label></div>
           </div>
           <div>
-            <button onClick={() => registerUser()} type="submit" disabled={isLoading} className="flex w-full justify-center rounded-lg bg-btnColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{isLoading ? <Spinner /> : "Создать аккаунт"}</button>
+            <button onClick={() => registerUserOrAuthUser('register', userData, isRememberMeChecked)} type="submit" className="flex w-full justify-center rounded-lg bg-btnColor px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">{"Создать аккаунт"}</button>
           </div>
         </form>
         <p className="mt-4 text-center text-sm/6 text-gray-500">
