@@ -1,6 +1,8 @@
 const MainPage = () => {
   return (
-    <h1>MainPage</h1>
+    <div className="w-[100vw]">
+      <h1 className="w-20 mx-auto">MainPage</h1>
+    </div>
   )
 }
 

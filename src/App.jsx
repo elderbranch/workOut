@@ -1,57 +1,53 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import './styles/App.css';
+import { Toaster } from "react-hot-toast";
+
 import LogInModal from "./Components/Auth/LogInModal.jsx";
 import AuthModal from "./Components/Auth/AuthModal.jsx";
-
-import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import Profile from "./Components/Profile/Profile.jsx";
-
-import { Toaster } from "react-hot-toast";
-import MainPage from "./Components/pages/MainPage.jsx";
 import Header from "./Components/Header/Header.jsx";
-import { useEffect } from "react";
-import { logInByToken } from "./api/logInByToken.js";
-import useUserStore from "./Components/ZustandStore.jsx";
+import MainPage from "./Components/pages/MainPage.jsx";
+import Worksouts from "./Components/pages/WorksoutPage.jsx";
+import AddNewWorkOutPage from "./Components/pages/AddNewWorkOutPage.jsx";
+import ProtectedRouteWrapper from "./Components/ProtectedRouteWrapper.jsx";
+import AddNewExersizePage from "./Components/pages/AddNewExersizePage.jsx";
+import WorkOutBox from "./Components/pages/WorkoutDetails.jsx";
 
 
 function App() {
-  const { setUser,} = useUserStore();
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = await logInByToken();
-        console.log(userData);
-        setUser(userData); 
-      } catch (error) {
-        console.error("Failed to fetch user data by token:", error);
-      }
-    };
-
-    fetchUserData(); 
-  }, [setUser]);
-
   return (
-    <>
+    <div className="h-screen w-screen fixed top-0 left-0 overflow-auto">
       <Toaster position="top-right" toastOptions={{
-        duration: 4000
+        duration: 3000
       }} />
-      <Header/>
       <BrowserRouter>
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/auth" element={<AuthModal />} />
           <Route path="/login" element={<LogInModal />} />
           <Route
+            path="/work"
+            element={<ProtectedRouteWrapper element={<AddNewExersizePage />} />}
+          />
+          <Route
+            path="/AddNewWorkOut"
+            element={<ProtectedRouteWrapper element={<AddNewWorkOutPage />} />}
+          />
+          <Route
             path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
+            element={<ProtectedRouteWrapper element={<Profile />} />}
+          />
+          <Route
+            path="/workouts"
+            element={<ProtectedRouteWrapper element={<Worksouts />} />}
+          />
+          <Route
+            path="/workoutDetails/:id"
+            element={<ProtectedRouteWrapper element={<WorkOutBox />} />}
           />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   )
 }
 

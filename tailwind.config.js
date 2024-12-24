@@ -9,16 +9,20 @@ export default {
       colors: {
         inputBg: '#F2F2F2',
         inputBorger: '#5065EB',
-        btnColor: '#5065EB'
+        btnColor: '#5065EB',
+        textColor: '#F6F6F6'
+      },
+      fontSize: {
+        h1: ['32px', '38px'],
+      },
+      backgroundImage: {
+        'profile-back': "url('./src/assets/BackImage.svg)",
+        'footer-texture': "url('/img/footer-texture.png')",
+      },
+      fontFamily: {
+        'workoutTitle': ['Helvetica NeueLTW0693BlkExtObl', 'system-ui'],
       },
     },
-    fontSize: {
-      h1: ['32px', '38px'],
-    },
-    backgroundImage: {
-      'profile-back': "url('./src/assets/BackImage.svg)",
-      'footer-texture': "url('/img/footer-texture.png')",
-    }
   },
   plugins: [],
 }
